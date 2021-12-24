@@ -3,21 +3,24 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
+	<!--<LangVersion>10.0</LangVersion>-->
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Emgu.CV" Version="4.5.4.4788" />
     <PackageReference Include="Emgu.CV.Bitmap" Version="4.5.4.4788" />
-    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.4.4788" />
+    <PackageReference Include="Emgu.CV.runtime.windows.cuda" Version="4.5.4.4788" />
     <PackageReference Include="Emgu.CV.UI" Version="4.5.4.4788" />
+    <PackageReference Include="Emgu.runtime.windows.cuda.dnn.cnn.infer" Version="8.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Form4p7.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Form4p7.cs" />
   </ItemGroup>
 
 </Project>

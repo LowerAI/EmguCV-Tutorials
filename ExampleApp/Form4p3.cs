@@ -1,8 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-using Emgu.CV.UI;
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
     // p3:直方图图像框和平移与缩放框
     public partial class Form4p3 : Form

@@ -1,7 +1,3 @@
-using Emgu;
-using Emgu.CV;
-using Emgu.CV.Structure;
-
 namespace ExampleApp
 {
     // p2:¶ÁÈ¡ºÍÏÔÊ¾Í¼Ïñ

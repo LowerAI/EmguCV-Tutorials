@@ -1,7 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
     // p6:图像二值化：简单阈值、Otsu阈值
     public partial class Form4p6 : Form

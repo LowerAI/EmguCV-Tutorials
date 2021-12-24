@@ -1,18 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
     // p4:边缘检测：Canny、Sobel和拉普拉斯边缘检测
     public partial class Form4p4 : Form
