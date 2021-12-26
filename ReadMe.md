@@ -1,5 +1,6 @@
 # 项目描述
-本项目根据国外大佬AKHTAR JAMIL的Emgu CV教程编写。根据开发环境做了略微调整。
++ 本项目根据巴基斯坦计算机与新兴科学国立大学的AKHTAR JAMIL(阿赫塔尔.贾米尔)的Emgu CV教程编写。由于开发环境的差异做了相应调整。
++ 源连接：[Emgucv # 19: Real-time text Detection from Videos in Emgu CV - YouTube](https://www.youtube.com/embed/?list=PLUSwCY_ybvyLcNxZ1Q3vCkaCH9rjrRxA6)
 
 
 # 参考引用
@@ -20,3 +21,6 @@
 + 5.Gradient(梯度)
 + 6.Top Hat(白色顶帽变换)
 + 7.Black Hat(黑色顶帽变换)
+
+# p22 如何安装EmguCV 3.3
+(略过)

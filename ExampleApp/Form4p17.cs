@@ -2,7 +2,7 @@
 
 namespace ExampleApp
 {
-
+    // p17:分隔字符
     public partial class Form4p17 : Form
     {
         Image<Bgr, byte> imgInput;
@@ -41,7 +41,7 @@ namespace ExampleApp
                 return;
             }
 
-            using Image<Gray, byte> imgout = imgInput.Convert<Gray, byte>().Not().ThresholdBinary(new Gray(50), new Gray(255)); // 
+            using Image<Gray, byte> imgout = imgInput.Convert<Gray, byte>().Not().ThresholdBinary(new Gray(50), new Gray(255)); // 注意此处的"Not()"，由于选取的图片是白底黑字，转换成灰度图之后需要取反让其变成黑底白字才能取出来字
             using VectorOfVectorOfPoint contours = new();
             using Mat hier = new();
 
@@ -51,7 +51,7 @@ namespace ExampleApp
             for (int i = 0; i < contours.Size; i++)
             {
                 Rectangle rect = CvInvoke.BoundingRectangle(contours[i]);
-                imgInput.ROI = rect;
+                imgInput.ROI = rect; // 给imgInput设置特征区域
 
                 img = imgInput.Copy().AsBitmap();
                 imgInput.ROI = Rectangle.Empty;
