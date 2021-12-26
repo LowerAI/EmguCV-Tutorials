@@ -1,9 +1,9 @@
 namespace ExampleApp
 {
     // p2:∂¡»°∫Õœ‘ æÕºœÒ
-    public partial class Form4p2 : Form
+    public partial class Form4p02 : Form
     {
-        public Form4p2()
+        public Form4p02()
         {
             InitializeComponent();
         }

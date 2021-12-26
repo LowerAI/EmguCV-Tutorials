@@ -1,6 +1,6 @@
 ﻿namespace ExampleApp
 {
-    partial class Form4p6
+    partial class Form4p06
     {
         /// <summary>
         /// Required designer variable.

@@ -1,11 +1,11 @@
 ﻿namespace ExampleApp
 {
     // p4:边缘检测：Canny、Sobel和拉普拉斯边缘检测
-    public partial class Form4p4 : Form
+    public partial class Form4p04 : Form
     {
         Image<Bgr, byte> _imgInput;
         ValueTuple<double, double> cannyParas = (50,20);
-        public Form4p4()
+        public Form4p04()
         {
             InitializeComponent();
         }

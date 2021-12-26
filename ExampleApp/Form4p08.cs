@@ -1,11 +1,11 @@
 ﻿namespace ExampleApp
 {
     // p8:均值平移切割
-    public partial class Form4p8 : Form
+    public partial class Form4p08 : Form
     {
         (int spatialWindowRadius,int colorWindowRadius, int minimumSegmentSize, int maxIteration) para = (15,30,50,10);
 
-        public Form4p8()
+        public Form4p08()
         {
             InitializeComponent();
         }
@@ -55,7 +55,7 @@
             {
                 // 异常内容：
                 // 1.The type initializer for 'Emgu.CV.CvInvoke' threw an exception.
-                // 2.OpenCV:Invalid Texture
+                // 2.OpenCV: invalid texture reference
                 (string title, string info) = ("提示", ex.Message);
                 string[] infos = info.Split(':');
                 if (infos.Length >= 2)

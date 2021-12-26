@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
-    public partial class Form4p9 : Form
+    // p9:图像直方图
+    public partial class Form4p09 : Form
     {
         Image<Bgr, byte> _inputimage;
         Image<Gray, byte> R;
         Image<Gray, byte> G;
         Image<Gray, byte> B;
 
-        public Form4p9()
+        public Form4p09()
         {
             InitializeComponent();
         }

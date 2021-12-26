@@ -1,15 +1,13 @@
-﻿
-
-namespace ExampleApp
+﻿namespace ExampleApp
 {
     // p7:自适应阈值：使用自适应阈值的图像二值化
-    public partial class Form4p7 : Form
+    public partial class Form4p07 : Form
     {
         Image<Bgr,byte> imgInput;
         Image<Gray, byte> imgGray;
         Image<Gray, byte> imgBinarize;
 
-        public Form4p7()
+        public Form4p07()
         {
             InitializeComponent();
         }

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Form4p7.cs" />
+    <Compile Update="Form4p07.cs" />
   </ItemGroup>
 
 </Project>

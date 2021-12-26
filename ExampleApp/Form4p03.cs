@@ -1,12 +1,12 @@
 ﻿namespace ExampleApp
 {
     // p3:直方图图像框和平移与缩放框
-    public partial class Form4p3 : Form
+    public partial class Form4p03 : Form
     {
         Image<Bgr, byte> _Inputimage;
         Image<Gray, byte> _Grayimage;
 
-        public Form4p3()
+        public Form4p03()
         {
             InitializeComponent();
         }

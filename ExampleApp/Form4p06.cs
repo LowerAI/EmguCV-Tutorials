@@ -1,13 +1,13 @@
 ﻿namespace ExampleApp
 {
     // p6:图像二值化：简单阈值、Otsu阈值
-    public partial class Form4p6 : Form
+    public partial class Form4p06 : Form
     {
         Image<Bgr,byte> imgInput;
         Image<Gray, byte> imgGray;
         Image<Gray, byte> imgBinarize;
 
-        public Form4p6()
+        public Form4p06()
         {
             InitializeComponent();
         }
