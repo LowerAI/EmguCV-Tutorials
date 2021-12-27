@@ -10,7 +10,7 @@ namespace ExampleApp
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form4p21());
+            Application.Run(new Form4p25());
         }
 
         private static void CurrentDomain_ProcessExit(object? sender, EventArgs e)
