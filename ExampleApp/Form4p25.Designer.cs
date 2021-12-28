@@ -101,6 +101,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(24, 88);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(248, 256);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -113,42 +114,39 @@
             this.cbShowData.TabIndex = 2;
             this.cbShowData.Text = "checkBox1";
             this.cbShowData.UseVisualStyleBackColor = true;
+            this.cbShowData.CheckedChanged += new System.EventHandler(this.cbShowData_CheckedChanged);
             // 
             // lblTrain
             // 
             this.lblTrain.AutoSize = true;
-            this.lblTrain.Location = new System.Drawing.Point(360, 56);
+            this.lblTrain.Location = new System.Drawing.Point(312, 88);
             this.lblTrain.Name = "lblTrain";
-            this.lblTrain.Size = new System.Drawing.Size(55, 21);
+            this.lblTrain.Size = new System.Drawing.Size(0, 21);
             this.lblTrain.TabIndex = 3;
-            this.lblTrain.Text = "label1";
             // 
             // lblTest
             // 
             this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(360, 90);
+            this.lblTest.Location = new System.Drawing.Point(312, 165);
             this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(55, 21);
+            this.lblTest.Size = new System.Drawing.Size(0, 21);
             this.lblTest.TabIndex = 4;
-            this.lblTest.Text = "label2";
             // 
             // lblAccuracy
             // 
             this.lblAccuracy.AutoSize = true;
-            this.lblAccuracy.Location = new System.Drawing.Point(360, 124);
+            this.lblAccuracy.Location = new System.Drawing.Point(312, 242);
             this.lblAccuracy.Name = "lblAccuracy";
-            this.lblAccuracy.Size = new System.Drawing.Size(55, 21);
+            this.lblAccuracy.Size = new System.Drawing.Size(0, 21);
             this.lblAccuracy.TabIndex = 5;
-            this.lblAccuracy.Text = "label3";
             // 
             // lblOutputLabel
             // 
             this.lblOutputLabel.AutoSize = true;
-            this.lblOutputLabel.Location = new System.Drawing.Point(360, 158);
+            this.lblOutputLabel.Location = new System.Drawing.Point(312, 319);
             this.lblOutputLabel.Name = "lblOutputLabel";
-            this.lblOutputLabel.Size = new System.Drawing.Size(55, 21);
+            this.lblOutputLabel.Size = new System.Drawing.Size(0, 21);
             this.lblOutputLabel.TabIndex = 6;
-            this.lblOutputLabel.Text = "label3";
             // 
             // button1
             // 
@@ -186,6 +184,7 @@
             this.Controls.Add(this.cbShowData);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form4p25";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

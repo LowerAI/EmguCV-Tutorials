@@ -1,11 +1,11 @@
 ﻿namespace ExampleApp
 {
-    // p25:在EmguCV 3.3中使用SVN进行数字识别
+    // p25&26:在EmguCV 3.3中使用SVN进行数字识别
     public partial class Form4p25 : Form
     {
         static string ProjectPath = $"{Application.StartupPath}Digits";
-        string TrainDataPath = $"{ProjectPath}\\test.csv";
-        string TestDataPath = $"{ProjectPath}\\test.csv";
+        string TrainDataPath = $"{ProjectPath}\\mytrain.csv";
+        string TestDataPath = $"{ProjectPath}\\mytest.csv";
 
         Matrix<float> TrainData;
         Matrix<float> TestData;
@@ -46,12 +46,30 @@
 
         private void menuItemTrainSVM_Click(object sender, EventArgs e)
         {
+            if (TrainData == null)
+            {
+                return;
+            }
+
             try
             {
-                svm = new();
-                svm.C = 100;
-                svm.Type = SVM.SvmType.CSvc;
-                svm.Gamma = 0.005;
+                if (File.Exists("svm.txt"))
+                {
+                    svm = new();
+                    using FileStorage fileStorage = new("svm.txt", FileStorage.Mode.Read);
+                    svm.Read(fileStorage.GetNode("opencv_ml_svm"));
+                }
+                else
+                {
+                    svm = new();
+                    svm.C = 100;
+                    svm.Type = SVM.SvmType.CSvc;
+                    svm.Gamma = 0.005;
+                    svm.TermCriteria = new(1000, 1e-6);
+                    svm.Train(TrainData, Emgu.CV.ML.MlEnum.DataLayoutType.RowSample, TrainLabel);
+                    svm.Save("svm.txt");
+                }
+                MessageBox.Show("SVM已训练！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -59,9 +77,50 @@
             }
         }
 
-        private void menuItemTestSVM_Click(object sender, EventArgs e)
+        private async void menuItemTestSVM_Click(object sender, EventArgs e)
         {
+            if (TestData == null)
+            {
+                return;
+            }
 
+            if (svm == null)
+            {
+                return;
+            }
+
+            try
+            {
+                int counter = 0;
+                for (int i = 0; i < TestData.Rows; i++)
+                {
+                    using Matrix<float> row = TestData.GetRow(i);
+                    float predict = svm.Predict(row);
+                    lblTest.Text = $"输入标签：{TestLabel[i, 0]}"; ;
+                    lblOutputLabel.Text = $"预测标签：{predict}";
+                    if (predict == TestData[i, 0])
+                    {
+                        counter++;
+                    }
+
+                    if (IsDisplayImage)
+                    {
+                        using var imgout = TestData.GetRow(Counter).Mat.Reshape(0, 29).ToImage<Gray, byte>();
+                        pictureBox1.Image = imgout.AsBitmap();
+                        await Task.Delay(10);
+                    }
+                    else
+                    {
+                        await Task.Delay(1);
+                    }
+                }
+
+                lblAccuracy.Text = $"准确率：{(counter / (float)(TestData.Rows))}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LoadTrainData()
@@ -153,7 +212,7 @@
 
             if (Counter >= 0)
             {
-                Image<Gray, byte> imgout = TrainData.GetRow(Counter).Mat.Reshape(0,28).ToImage<Gray, byte>().ThresholdBinary(new Gray(30), new Gray(255));
+                using Image<Gray, byte> imgout = TrainData.GetRow(Counter).Mat.Reshape(0, 29).ToImage<Gray, byte>().ThresholdBinary(new Gray(30), new Gray(255));
                 pictureBox1.Image = imgout.AsBitmap();
                 Counter--;
             }
@@ -166,13 +225,18 @@
                 return;
             }
 
-            if (Counter > TrainData.Rows - 1)
+            if (Counter < TrainData.Rows - 1)
             {
                 Counter++;
 
-                Image<Gray, byte> imgout = TrainData.GetRow(Counter).Mat.Reshape(0, 28).ToImage<Gray, byte>().ThresholdBinary(new Gray(30), new Gray(255));
+                using Image<Gray, byte> imgout = TrainData.GetRow(Counter).Mat.Reshape(0, 29).ToImage<Gray, byte>().ThresholdBinary(new Gray(30), new Gray(255));
                 pictureBox1.Image = imgout.AsBitmap();
             }
+        }
+
+        private void cbShowData_CheckedChanged(object sender, EventArgs e)
+        {
+            IsDisplayImage = cbShowData.Checked;
         }
     }
 }

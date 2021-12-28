@@ -24,3 +24,29 @@
 
 # p22 如何安装EmguCV 3.3
 (略过)
+
+
+# p25-26
++ (这两个是一体的)
++ 数据来源：https://www.kaggle.com/c/digit-recognizer/data
+
+
+# p28
+## 对象
++ 人脸检测
+  + - Haar级联分类器
+  + - LBP级联分类器
+
++ 数据集
+  + -OpenCV提供的XML文件
+    + 接受过各种面部和非面部训练
+    + 可以从静态图像、视频和实时录像中检测面部
+
+# p29
+## 对象
++ 形状检测
+  + - 查找轮廓
+  + - 几何约束
+
++ 参考
+  + -https://www.pyimagesearch.com/2016/02/08/opencv-shape-detection/
