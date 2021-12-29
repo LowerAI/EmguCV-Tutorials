@@ -50,3 +50,25 @@
 
 + 参考
   + -https://www.pyimagesearch.com/2016/02/08/opencv-shape-detection/
+
+# p30
+## 对象
++ 连接组件标签
++ 用鼠标获取单个对象
+
+# p32 带统计信息的连接组件标记/Connected Component Labeling with Statistics
++ 获取对象并显示其统计信息
+```
+public static int ConnectedComponentsWithStats(
+	IInputArray image,
+	IOutputArray labels,
+	IOutputArray stats,
+	IOutputArray centroids,
+	LineType connectivity = LineType.EightConnected,
+	DepthType labelType = DepthType.Cv32S,
+	ConnectedComponentsAlgorithmsTypes cclType = ConnectedComponentsAlgorithmsTypes.Default
+)
+```
+
+# p33 使用Nuget包管理器安装EmguCV 4.x
+(略过)
