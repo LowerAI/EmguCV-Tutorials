@@ -21,9 +21,7 @@
 
   <ItemGroup>
     <Compile Update="Form4p07.cs" />
-    <Compile Update="Form4p19.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Form4p19.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

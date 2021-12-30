@@ -72,3 +72,6 @@ public static int ConnectedComponentsWithStats(
 
 # p33 使用Nuget包管理器安装EmguCV 4.x
 (略过)
+
+# p38 基于特征的图像匹配
+## 特征检测，描述和匹配

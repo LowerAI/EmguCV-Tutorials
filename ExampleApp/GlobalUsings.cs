@@ -1,6 +1,7 @@
 ﻿global using Emgu.CV;
 global using Emgu.CV.Cuda;
 global using Emgu.CV.CvEnum;
+global using Emgu.CV.Features2D; // => p38
 global using Emgu.CV.ML;
 global using Emgu.CV.Structure;
 global using Emgu.CV.UI;
