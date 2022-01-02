@@ -41,6 +41,9 @@
             this.模板匹配ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemMatching = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemMultiScaleMatching = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFeatureMatching = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemBruleForceMatcher = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFLANNMatcher = new System.Windows.Forms.ToolStripMenuItem();
             this.实用ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.变换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemResize = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +54,8 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.menuItemFeatureMatching = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFeatureDetector = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemHarrisDetector = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -101,7 +105,8 @@
             this.处理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.处理ROIToolStripMenuItem,
             this.模板匹配ToolStripMenuItem,
-            this.menuItemFeatureMatching});
+            this.menuItemFeatureMatching,
+            this.menuItemFeatureDetector});
             this.处理ToolStripMenuItem.Name = "处理ToolStripMenuItem";
             this.处理ToolStripMenuItem.Size = new System.Drawing.Size(56, 25);
             this.处理ToolStripMenuItem.Text = "处理";
@@ -120,28 +125,28 @@
             // menuItemSelectROI
             // 
             this.menuItemSelectROI.Name = "menuItemSelectROI";
-            this.menuItemSelectROI.Size = new System.Drawing.Size(217, 26);
+            this.menuItemSelectROI.Size = new System.Drawing.Size(201, 26);
             this.menuItemSelectROI.Text = "选择ROI";
             this.menuItemSelectROI.Click += new System.EventHandler(this.menuItemSelectROI_Click);
             // 
             // menuItemGetRegionOfROI
             // 
             this.menuItemGetRegionOfROI.Name = "menuItemGetRegionOfROI";
-            this.menuItemGetRegionOfROI.Size = new System.Drawing.Size(217, 26);
+            this.menuItemGetRegionOfROI.Size = new System.Drawing.Size(201, 26);
             this.menuItemGetRegionOfROI.Text = "获取ROI区域";
             this.menuItemGetRegionOfROI.Click += new System.EventHandler(this.menuItemGetRegionOfROI_Click);
             // 
             // menuItemGaussianBlurROI
             // 
             this.menuItemGaussianBlurROI.Name = "menuItemGaussianBlurROI";
-            this.menuItemGaussianBlurROI.Size = new System.Drawing.Size(217, 26);
+            this.menuItemGaussianBlurROI.Size = new System.Drawing.Size(201, 26);
             this.menuItemGaussianBlurROI.Text = "高斯模糊ROI";
             this.menuItemGaussianBlurROI.Click += new System.EventHandler(this.menuItemGaussianBlurROI_Click);
             // 
             // menuItemCannyEdgesROI
             // 
             this.menuItemCannyEdgesROI.Name = "menuItemCannyEdgesROI";
-            this.menuItemCannyEdgesROI.Size = new System.Drawing.Size(217, 26);
+            this.menuItemCannyEdgesROI.Size = new System.Drawing.Size(201, 26);
             this.menuItemCannyEdgesROI.Text = "Canny边缘ROI";
             this.menuItemCannyEdgesROI.Click += new System.EventHandler(this.menuItemCannyEdgesROI_Click);
             // 
@@ -157,16 +162,39 @@
             // menuItemMatching
             // 
             this.menuItemMatching.Name = "menuItemMatching";
-            this.menuItemMatching.Size = new System.Drawing.Size(217, 26);
+            this.menuItemMatching.Size = new System.Drawing.Size(173, 26);
             this.menuItemMatching.Text = "匹配";
             this.menuItemMatching.Click += new System.EventHandler(this.menuItemMatching_Click);
             // 
             // menuItemMultiScaleMatching
             // 
             this.menuItemMultiScaleMatching.Name = "menuItemMultiScaleMatching";
-            this.menuItemMultiScaleMatching.Size = new System.Drawing.Size(217, 26);
+            this.menuItemMultiScaleMatching.Size = new System.Drawing.Size(173, 26);
             this.menuItemMultiScaleMatching.Text = "多尺度匹配";
             this.menuItemMultiScaleMatching.Click += new System.EventHandler(this.menuItemMultiScaleMatching_Click);
+            // 
+            // menuItemFeatureMatching
+            // 
+            this.menuItemFeatureMatching.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemBruleForceMatcher,
+            this.menuItemFLANNMatcher});
+            this.menuItemFeatureMatching.Name = "menuItemFeatureMatching";
+            this.menuItemFeatureMatching.Size = new System.Drawing.Size(217, 26);
+            this.menuItemFeatureMatching.Text = "特征匹配";
+            // 
+            // menuItemBruleForceMatcher
+            // 
+            this.menuItemBruleForceMatcher.Name = "menuItemBruleForceMatcher";
+            this.menuItemBruleForceMatcher.Size = new System.Drawing.Size(217, 26);
+            this.menuItemBruleForceMatcher.Text = "暴力匹配";
+            this.menuItemBruleForceMatcher.Click += new System.EventHandler(this.menuItemBruleForceMatcher_Click);
+            // 
+            // menuItemFLANNMatcher
+            // 
+            this.menuItemFLANNMatcher.Name = "menuItemFLANNMatcher";
+            this.menuItemFLANNMatcher.Size = new System.Drawing.Size(217, 26);
+            this.menuItemFLANNMatcher.Text = "快速近邻匹配";
+            this.menuItemFLANNMatcher.Click += new System.EventHandler(this.menuItemFLANNMatcher_Click);
             // 
             // 实用ToolStripMenuItem
             // 
@@ -182,7 +210,7 @@
             this.menuItemResize,
             this.menuItemRotaions});
             this.变换ToolStripMenuItem.Name = "变换ToolStripMenuItem";
-            this.变换ToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.变换ToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.变换ToolStripMenuItem.Text = "转换";
             // 
             // menuItemResize
@@ -264,12 +292,20 @@
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
-            // menuItemFeatureMatching
+            // menuItemFeatureDetector
             // 
-            this.menuItemFeatureMatching.Name = "menuItemFeatureMatching";
-            this.menuItemFeatureMatching.Size = new System.Drawing.Size(217, 26);
-            this.menuItemFeatureMatching.Text = "特征匹配";
-            this.menuItemFeatureMatching.Click += new System.EventHandler(this.menuItemFeatureMatching_Click);
+            this.menuItemFeatureDetector.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemHarrisDetector});
+            this.menuItemFeatureDetector.Name = "menuItemFeatureDetector";
+            this.menuItemFeatureDetector.Size = new System.Drawing.Size(217, 26);
+            this.menuItemFeatureDetector.Text = "特征检测";
+            // 
+            // menuItemHarrisDetector
+            // 
+            this.menuItemHarrisDetector.Name = "menuItemHarrisDetector";
+            this.menuItemHarrisDetector.Size = new System.Drawing.Size(217, 26);
+            this.menuItemHarrisDetector.Text = "哈里斯角点检测";
+            this.menuItemHarrisDetector.Click += new System.EventHandler(this.menuItemHarrisDetector_Click);
             // 
             // Form4p34
             // 
@@ -322,5 +358,9 @@
         private ToolStripMenuItem menuItemRotaions;
         private ToolStripMenuItem menuItemMultiScaleMatching;
         private ToolStripMenuItem menuItemFeatureMatching;
+        private ToolStripMenuItem menuItemBruleForceMatcher;
+        private ToolStripMenuItem menuItemFLANNMatcher;
+        private ToolStripMenuItem menuItemFeatureDetector;
+        private ToolStripMenuItem menuItemHarrisDetector;
     }
 }

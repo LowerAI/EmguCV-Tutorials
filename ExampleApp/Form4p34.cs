@@ -1,10 +1,14 @@
-﻿namespace ExampleApp
+﻿using Emgu.CV.Flann;
+
+namespace ExampleApp
 {
     // p34:如何用鼠标选择图像的特征区域(ROI)
     // p35:如何用ROI处理图像的一部分
     // p36:EmguCV中的模板匹配
     // p37:多尺度模板匹配
     // p38:基于特征的图像匹配
+    // p39:EmguCV中基于FLANN的图像匹配
+    // p40:EmguCV中的哈里斯角点检测
     public partial class Form4p34 : Form
     {
         Dictionary<string, Image<Bgr, byte>> imgList;
@@ -31,7 +35,7 @@
         {
             try
             {
-                using OpenFileDialog ofd = new();
+                OpenFileDialog ofd = new();
                 ofd.Filter = "图像(*.jpg,*.jpeg)|*.jpeg;*.jpg;*.png";
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
@@ -335,9 +339,9 @@
                 Rectangle r = Rectangle.Empty;
                 double globalMinVal = float.MaxValue;
 
-                for (double scale = 0.5f; scale <= 1.50; scale+= 0.25f)
+                for (double scale = 0.5f; scale <= 1.50; scale += 0.25f)
                 {
-                    var temp = template.Resize(scale,Inter.Cubic);
+                    var temp = template.Resize(scale, Inter.Cubic);
                     using var imgout = new Mat();
                     CvInvoke.MatchTemplate(imgScene, temp, imgout, TemplateMatchingType.Sqdiff);
 
@@ -353,14 +357,14 @@
                     if (prob < globalMinVal)
                     {
                         globalMinVal = prob;
-                        r = new Rectangle(minLoc,temp.Size);
+                        r = new Rectangle(minLoc, temp.Size);
                     }
                 }
 
                 if (r != Rectangle.Empty)
                 {
                     CvInvoke.Rectangle(imgScene, r, new MCvScalar(255, 0, 0), 3);
-                        pictureBox1.Image = imgScene.AsBitmap();
+                    pictureBox1.Image = imgScene.AsBitmap();
                 }
             }
             catch (Exception ex)
@@ -369,8 +373,8 @@
             }
         }
 
-        // 菜单项 - 处理 - 特征匹配
-        private void menuItemFeatureMatching_Click(object sender, EventArgs e)
+        // 菜单项 - 处理 - 特征匹配 - 暴力匹配
+        private void menuItemBruleForceMatcher_Click(object sender, EventArgs e)
         {
             try
             {
@@ -381,9 +385,9 @@
                 }
 
                 var imgScene = imgList["Input"].Clone();
-                var template = new Bitmap(pictureBox1.Image).ToImage<Gray,byte>();
+                using var template = new Bitmap(pictureBox1.Image).ToImage<Gray, byte>();
 
-                var vp = ProcessImage(template, imgScene.Convert<Gray, byte>());
+                using var vp = ProcessImage(template, imgScene.Convert<Gray, byte>());
                 if (vp != null)
                 {
                     CvInvoke.Polylines(imgScene, vp, true, new MCvScalar(0, 0, 255), 5);
@@ -397,7 +401,7 @@
             }
         }
 
-        private static VectorOfPoint ProcessImage(Image<Gray,byte> template, Image<Gray,byte> sceneImage)
+        private static VectorOfPoint ProcessImage(Image<Gray, byte> template, Image<Gray, byte> sceneImage)
         {
             try
             {
@@ -428,7 +432,7 @@
 
                 Features2DToolbox.VoteForUniqueness(matches, uniquenessthreshold, mask);
 
-                int count =  Features2DToolbox.VoteForSizeAndOrientation(templateKeyPoints, sceneKeyPoints, matches, mask, 1.5, 20);
+                int count = Features2DToolbox.VoteForSizeAndOrientation(templateKeyPoints, sceneKeyPoints, matches, mask, 1.5, 20);
 
                 if (count >= 4)
                 {
@@ -437,7 +441,7 @@
 
                 if (homeGraphy != null)
                 {
-                    Rectangle rect = new(Point.Empty,template.Size);
+                    Rectangle rect = new(Point.Empty, template.Size);
                     PointF[] pts = new PointF[]
                     {
                         new PointF(rect.Left, rect.Bottom),
@@ -447,11 +451,164 @@
                     };
 
                     pts = CvInvoke.PerspectiveTransform(pts, homeGraphy);
-                    Point[] points = Array.ConvertAll<PointF,Point>(pts,Point.Round);
+                    Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);
                     finalPoint = new VectorOfPoint(points);
                 }
 
                 return finalPoint;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // 菜单项 - 处理 - 特征匹配 - 快速近邻匹配
+        private void menuItemFLANNMatcher_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (pictureBox1.Image == null || rect == Rectangle.Empty)
+                {
+
+                    return;
+                }
+
+                var imgScene = imgList["Input"].Clone();
+                using var template = new Bitmap(pictureBox1.Image).ToImage<Gray, byte>();
+
+                using var vp = ProcessImageFLANN(template, imgScene.Convert<Gray, byte>());
+                if (vp != null)
+                {
+                    CvInvoke.Polylines(imgScene, vp, true, new MCvScalar(0, 0, 255), 5);
+                }
+
+                pictureBox1.Image = imgScene.AsBitmap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static VectorOfPoint ProcessImageFLANN(Image<Gray, byte> template, Image<Gray, byte> sceneImage)
+        {
+            try
+            {
+                // 初始化
+                VectorOfPoint finalPoint = null;
+                Mat homeGraphy = null;
+                using VectorOfKeyPoint templateKeyPoints = new();
+                using VectorOfKeyPoint sceneKeyPoints = new();
+
+                using Mat templateDescriptor = new();
+                using Mat sceneDescriptor = new();
+                Mat mask;
+                int k = 2;
+                double uniquenessthreshold = 0.80;
+                using VectorOfVectorOfDMatch matches = new();
+
+                // 特征检测和描述
+                KAZE featureDetector = new();
+                featureDetector.DetectAndCompute(template, null, templateKeyPoints, templateDescriptor, false);
+                featureDetector.DetectAndCompute(sceneImage, null, sceneKeyPoints, sceneDescriptor, false);
+
+                // 匹配
+                KdTreeIndexParams ip = new KdTreeIndexParams();
+                SearchParams sp = new SearchParams();
+                FlannBasedMatcher matcher = new FlannBasedMatcher(ip, sp);
+
+                matcher.Add(templateDescriptor);
+                matcher.KnnMatch(sceneDescriptor, matches, k);
+
+                mask = new(matches.Size, 1, DepthType.Cv8U, 1);
+                mask.SetTo(new MCvScalar(255));
+
+                Features2DToolbox.VoteForUniqueness(matches, uniquenessthreshold, mask);
+
+                int count = Features2DToolbox.VoteForSizeAndOrientation(templateKeyPoints, sceneKeyPoints, matches, mask, 1.5, 20);
+
+                if (count >= 4)
+                {
+                    homeGraphy = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(templateKeyPoints, sceneKeyPoints, matches, mask, 5);
+                }
+
+                if (homeGraphy != null)
+                {
+                    Rectangle rect = new(Point.Empty, template.Size);
+                    PointF[] pts = new PointF[]
+                    {
+                        new PointF(rect.Left, rect.Bottom),
+                        new PointF(rect.Right, rect.Bottom),
+                        new PointF(rect.Left, rect.Top),
+                        new PointF(rect.Right, rect.Top)
+                    };
+
+                    pts = CvInvoke.PerspectiveTransform(pts, homeGraphy);
+                    Point[] points = Array.ConvertAll<PointF, Point>(pts, Point.Round);
+                    finalPoint = new VectorOfPoint(points);
+                }
+
+                return finalPoint;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // 菜单项 - 处理 - 特征检测 - 哈里斯角点检测
+        private void menuItemHarrisDetector_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //ApplyHarrisCorner();
+                DlgHCDParameters dlgHCD = new(0, 255, 200);
+                //if (dlgHCD.ShowDialog() == DialogResult.OK)
+                //{
+                //    int threshold = (int)dlgHCD.Tag;
+                //    ApplyHarrisCorner(threshold);
+                //}
+                dlgHCD.OnApply += ApplyHarrisCorner;
+                dlgHCD.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ApplyHarrisCorner(int threshold = 200)
+        {
+            try
+            {
+                if (imgList["Input"] == null)
+                {
+                    return;
+                }
+
+                var img = imgList["Input"].Clone();
+                using var gray = img.Convert<Gray, byte>();
+
+                using var corners = new Mat();
+                CvInvoke.CornerHarris(gray, corners, 2);
+                CvInvoke.Normalize(corners, corners, 255, 0, NormType.MinMax);
+
+                using Matrix<float> matrix = new Matrix<float>(corners.Rows, corners.Cols);
+                corners.CopyTo(matrix);
+
+                for (int i = 0; i < corners.Rows; i++)
+                {
+                    for (int j = 0; j < corners.Cols; j++)
+                    {
+                        if (matrix[i, j] > threshold)
+                        {
+                            CvInvoke.Circle(img, new Point(j, i), 5, new MCvScalar(0, 0, 255), 3);
+                        }
+                    }
+                }
+
+                pictureBox1.Image = img.AsBitmap();
             }
             catch (Exception ex)
             {
