@@ -44,6 +44,9 @@
             this.menuItemFeatureMatching = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemBruleForceMatcher = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemFLANNMatcher = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFeatureDetector = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemHarrisDetector = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemShiTomasDetector = new System.Windows.Forms.ToolStripMenuItem();
             this.实用ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.变换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItemResize = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,8 +57,9 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.menuItemFeatureDetector = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemHarrisDetector = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemFASTDetector = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemORBDetector = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemMSERDetector = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -185,16 +189,42 @@
             // menuItemBruleForceMatcher
             // 
             this.menuItemBruleForceMatcher.Name = "menuItemBruleForceMatcher";
-            this.menuItemBruleForceMatcher.Size = new System.Drawing.Size(217, 26);
+            this.menuItemBruleForceMatcher.Size = new System.Drawing.Size(189, 26);
             this.menuItemBruleForceMatcher.Text = "暴力匹配";
             this.menuItemBruleForceMatcher.Click += new System.EventHandler(this.menuItemBruleForceMatcher_Click);
             // 
             // menuItemFLANNMatcher
             // 
             this.menuItemFLANNMatcher.Name = "menuItemFLANNMatcher";
-            this.menuItemFLANNMatcher.Size = new System.Drawing.Size(217, 26);
+            this.menuItemFLANNMatcher.Size = new System.Drawing.Size(189, 26);
             this.menuItemFLANNMatcher.Text = "快速近邻匹配";
             this.menuItemFLANNMatcher.Click += new System.EventHandler(this.menuItemFLANNMatcher_Click);
+            // 
+            // menuItemFeatureDetector
+            // 
+            this.menuItemFeatureDetector.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemHarrisDetector,
+            this.menuItemShiTomasDetector,
+            this.menuItemFASTDetector,
+            this.menuItemORBDetector,
+            this.menuItemMSERDetector});
+            this.menuItemFeatureDetector.Name = "menuItemFeatureDetector";
+            this.menuItemFeatureDetector.Size = new System.Drawing.Size(217, 26);
+            this.menuItemFeatureDetector.Text = "特征检测";
+            // 
+            // menuItemHarrisDetector
+            // 
+            this.menuItemHarrisDetector.Name = "menuItemHarrisDetector";
+            this.menuItemHarrisDetector.Size = new System.Drawing.Size(221, 26);
+            this.menuItemHarrisDetector.Text = "哈里斯角点检测";
+            this.menuItemHarrisDetector.Click += new System.EventHandler(this.menuItemHarrisDetector_Click);
+            // 
+            // menuItemShiTomasDetector
+            // 
+            this.menuItemShiTomasDetector.Name = "menuItemShiTomasDetector";
+            this.menuItemShiTomasDetector.Size = new System.Drawing.Size(221, 26);
+            this.menuItemShiTomasDetector.Text = "施托马斯角点检测";
+            this.menuItemShiTomasDetector.Click += new System.EventHandler(this.menuItemShiTomasDetector_Click);
             // 
             // 实用ToolStripMenuItem
             // 
@@ -210,7 +240,7 @@
             this.menuItemResize,
             this.menuItemRotaions});
             this.变换ToolStripMenuItem.Name = "变换ToolStripMenuItem";
-            this.变换ToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.变换ToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.变换ToolStripMenuItem.Text = "转换";
             // 
             // menuItemResize
@@ -292,20 +322,26 @@
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
-            // menuItemFeatureDetector
+            // menuItemFASTDetector
             // 
-            this.menuItemFeatureDetector.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemHarrisDetector});
-            this.menuItemFeatureDetector.Name = "menuItemFeatureDetector";
-            this.menuItemFeatureDetector.Size = new System.Drawing.Size(217, 26);
-            this.menuItemFeatureDetector.Text = "特征检测";
+            this.menuItemFASTDetector.Name = "menuItemFASTDetector";
+            this.menuItemFASTDetector.Size = new System.Drawing.Size(221, 26);
+            this.menuItemFASTDetector.Text = "快速检测";
+            this.menuItemFASTDetector.Click += new System.EventHandler(this.menuItemFASTDetector_Click);
             // 
-            // menuItemHarrisDetector
+            // menuItemORBDetector
             // 
-            this.menuItemHarrisDetector.Name = "menuItemHarrisDetector";
-            this.menuItemHarrisDetector.Size = new System.Drawing.Size(217, 26);
-            this.menuItemHarrisDetector.Text = "哈里斯角点检测";
-            this.menuItemHarrisDetector.Click += new System.EventHandler(this.menuItemHarrisDetector_Click);
+            this.menuItemORBDetector.Name = "menuItemORBDetector";
+            this.menuItemORBDetector.Size = new System.Drawing.Size(221, 26);
+            this.menuItemORBDetector.Text = "ORB检测";
+            this.menuItemORBDetector.Click += new System.EventHandler(this.menuItemORBDetector_Click);
+            // 
+            // menuItemMSERDetector
+            // 
+            this.menuItemMSERDetector.Name = "menuItemMSERDetector";
+            this.menuItemMSERDetector.Size = new System.Drawing.Size(221, 26);
+            this.menuItemMSERDetector.Text = "MSER检测";
+            this.menuItemMSERDetector.Click += new System.EventHandler(this.menuItemMSERDetector_Click);
             // 
             // Form4p34
             // 
@@ -362,5 +398,9 @@
         private ToolStripMenuItem menuItemFLANNMatcher;
         private ToolStripMenuItem menuItemFeatureDetector;
         private ToolStripMenuItem menuItemHarrisDetector;
+        private ToolStripMenuItem menuItemShiTomasDetector;
+        private ToolStripMenuItem menuItemFASTDetector;
+        private ToolStripMenuItem menuItemORBDetector;
+        private ToolStripMenuItem menuItemMSERDetector;
     }
 }

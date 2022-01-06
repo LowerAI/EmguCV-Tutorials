@@ -1,4 +1,5 @@
 ﻿using Emgu.CV.Flann;
+using Emgu.CV.XFeatures2D;
 
 namespace ExampleApp
 {
@@ -9,6 +10,7 @@ namespace ExampleApp
     // p38:基于特征的图像匹配
     // p39:EmguCV中基于FLANN的图像匹配
     // p40:EmguCV中的哈里斯角点检测
+    // p41:施托马斯角点检测
     public partial class Form4p34 : Form
     {
         Dictionary<string, Image<Bgr, byte>> imgList;
@@ -613,6 +615,129 @@ namespace ExampleApp
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        // 菜单项 - 处理 - 特征检测 - 施托马斯角点检测
+        private void menuItemShiTomasDetector_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (imgList["Input"] == null)
+                {
+                    return;
+                }
+
+                using var img = imgList["Input"].Clone();
+                using var gray = img.Convert<Gray, byte>();
+
+                using var detector = new GFTTDetector(1100,0.05);
+                var corners = detector.Detect(gray);
+
+                var outing = new Mat();
+                Features2DToolbox.DrawKeypoints(img, new VectorOfKeyPoint(corners),outing,new Bgr(0,0,255));
+
+                pictureBox1.Image = outing.ToBitmap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // 菜单项 - 处理 - 特征检测 - 快速检测
+        private void menuItemFASTDetector_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ApplyFASTFeatureDetector();
+                DlgHCDParameters dlgHCD = new DlgHCDParameters(0, 15, 10);
+                dlgHCD.OnApply += ApplyFASTFeatureDetector;
+                dlgHCD.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ApplyFASTFeatureDetector(int threshold = 10)
+        {
+            try
+            {
+                if (imgList["Input"] == null)
+                {
+                    return;
+                }
+
+                using var img = imgList["Input"].Clone();
+                using var gray = img.Convert<Gray, byte>();
+
+                using var detector = new GFTTDetector(threshold);
+                var corners = detector.Detect(gray);
+
+                var outing = new Mat();
+                Features2DToolbox.DrawKeypoints(img, new VectorOfKeyPoint(corners),outing,new Bgr(0,0,255));
+
+                pictureBox1.Image = outing.ToBitmap();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // 菜单项 - 处理 - 特征检测 - ORB检测
+        private void menuItemORBDetector_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (imgList["Input"] == null)
+                {
+                    return;
+                }
+
+                using var img = imgList["Input"].Clone();
+                using var gray = img.Convert<Gray, byte>();
+
+                var detector = new CudaORBDetector(1000);
+                var corners = detector.Detect(gray);
+
+                var outing = new Mat();
+                Features2DToolbox.DrawKeypoints(img, new VectorOfKeyPoint(corners), outing, new Bgr(0, 0, 255));
+
+                pictureBox1.Image = outing.ToBitmap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // 菜单项 - 处理 - 特征检测 - MSER检测
+        private void menuItemMSERDetector_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (imgList["Input"] == null)
+                {
+                    return;
+                }
+
+                var img = imgList["Input"].Clone();
+                using var gray = img.Convert<Gray, byte>();
+
+                var detector = new MSER();
+                var corners = detector.Detect(gray);
+
+                var outing = new Mat();
+                Features2DToolbox.DrawKeypoints(img, new VectorOfKeyPoint(corners), outing, new Bgr(0, 0, 255));
+
+                pictureBox1.Image = outing.ToBitmap();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
